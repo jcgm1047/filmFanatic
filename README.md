@@ -17,32 +17,40 @@ node --version
 npm --version
 ```
 
-## Clonar el Repositorio
+## Clonar el repositorio
 
 
- **Clonar el Repositorio**: 
+ **Clonar el repositorio**: 
    - Abre una terminal y ejecuta el siguiente comando:
      ```bash
      git clone https://github.com/jcgm1047/filmfanatic.git
      ```
 
-## Instalar Dependencias
+## Instalar dependencias
 
 - Dentro del directorio del proyecto, ejecuta el siguiente comando para instalar todas las dependencias:
- ```bash
+     ```bash
      npm install
      ```
 	 
-##Ejecutar la Aplicación
+## Ejecutar la aplicación
 
-- Con las dependencias instaladas, puedes ejecutar la aplicación localmente para el Back-end 
- ```bash
-     npm start
-     ```
-- Para iniciar el Front-end en la carpeta client
+Con las dependencias instaladas, puedes ejecutar la aplicación localmente:
 
- ```bash
-     npm start
-     ```
-¡Felicidades! Ahora tienes el proyecto clonado y ejecutándose localmente. Puedes comenzar a explorar el código.
+- **Para el Back-end**:
+  Navega al directorio raíz del proyecto y ejecuta:
+  
+  ```bash
+  npm start
+  ```
+  
+	 
+- **Para el Front-end**
+  En la carpeta client
+
+   ```bash
+  npm start
+  ```
+    
+**¡Felicidades! Ahora tienes el proyecto clonado y ejecutándose localmente. Puedes comenzar a explorar el código.**
 
