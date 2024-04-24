@@ -19,25 +19,30 @@ npm --version
 
 ## Clonar el Repositorio
 
-1. **Obtener la URL del Repositorio**: 
-   - Encuentra la URL del repositorio que deseas clonar. Esto se puede encontrar en la página del repositorio en GitHub, bajo el botón "Clone or download".
 
-2. **Clonar el Repositorio**: 
+ **Clonar el Repositorio**: 
    - Abre una terminal y ejecuta el siguiente comando:
      ```bash
-     git clone https://github.com/username/repository-name.git
+     git clone https://github.com/jcgm1047/filmfanatic.git
      ```
-   - Reemplaza `https://github.com/username/repository-name.git` con la URL que copiaste.
-
-3. **Navegar al Directorio del Proyecto**:
-   - Cambia al directorio del proyecto usando:
-     ```bash
-     cd repository-name
-     ```
-   - Cambia `repository-name` por el nombre del directorio que Git ha creado.
 
 ## Instalar Dependencias
 
 - Dentro del directorio del proyecto, ejecuta el siguiente comando para instalar todas las dependencias:
-  ```bash
-  npm install
+ ```bash
+     npm install
+     ```
+	 
+##Ejecutar la Aplicación
+
+- Con las dependencias instaladas, puedes ejecutar la aplicación localmente para el Back-end 
+ ```bash
+     npm start
+     ```
+- Para iniciar el Front-end en la carpeta client
+
+ ```bash
+     npm start
+     ```
+¡Felicidades! Ahora tienes el proyecto clonado y ejecutándose localmente. Puedes comenzar a explorar el código.
+
