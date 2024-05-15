@@ -1,29 +1,31 @@
-// Variables Sass
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$background-color: #f8f9fa;
-$font-size: 16px;
-$padding: 0.375rem 0.75rem;
+$form-color: #495057; // Variable para el color del texto del formulario
+$btn-bg-color: #007bff; // Variable para el color de fondo del botón
+$btn-hover-color: darken($btn-bg-color, 10%); // Oscurece el color del botón en hover
+$font-size: 1rem; // Tamaño de fuente para los select
+$select-padding: 0.375rem 0.75rem; // Padding para los select
 
-// Anidación y uso de variables con interpolación
-.form-wrapper {
-  background-color: $background-color;
-  padding: $padding;
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; // Añade un espacio entre los elementos del formulario
 
-  .form-select {
-    color: $primary-color;
+  .formSelect {
     font-size: $font-size;
+    color: $form-color;
+    padding: $select-padding;
 
-    option {
-      color: #{mix($primary-color, $secondary-color, 50%)};
+    &:focus {
+      border-color: $btn-bg-color; // Usa interpolación para aplicar color dinámico
     }
   }
 
-  .btn-primary {
-    background-color: $primary-color;
-    border-color: darken($primary-color, 15%);
+  .btnPrimary {
+    background-color: $btn-bg-color;
+    border-color: darken($btn-bg-color, 15%);
+    
     &:hover {
-      background-color: darken($primary-color, 10%);
+      background-color: $btn-hover-color;
     }
   }
 }

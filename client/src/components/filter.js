@@ -19,18 +19,14 @@ function Filters({ onFilterChange }) {
       alert("Please select a valid year");
     }
   };
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={`${styles.formWrapper} row g-3 align-items-center justify-content-center`}
-    >
+    <form onSubmit={handleSubmit} className={styles.formWrapper}>
+      {" "}
       <div className="col-auto">
         <select
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
-          className={`${styles.formSelect} form-select`}
-          aria-label="Default select example"
+          className={styles.formSelect}
         >
           <option value="">Seleccionar el género</option>
           <option value="28">Acción</option>
@@ -54,7 +50,7 @@ function Filters({ onFilterChange }) {
         <select
           value={year}
           onChange={(e) => setYear(e.target.value)}
-          className={`${styles.formSelect} form-select`}
+          className={styles.formSelect}
         >
           <option value="">Seleccionar el año</option>
           {years.map((y) => (
