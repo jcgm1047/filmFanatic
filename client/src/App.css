@@ -28,6 +28,16 @@
   color: #61dafb;
 }
 
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra los elementos horizontalmente */
+  gap: 10px; /* Añade espacio entre los elementos */
+  margin-bottom: 20px; /* Opcional: Añade un margen inferior para separar del contenido siguiente */
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

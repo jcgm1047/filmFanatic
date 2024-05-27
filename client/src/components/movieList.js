@@ -3,6 +3,7 @@ import MovieCard from "./movieCard";
 import MovieDetails from "./movieDetail"; // Asegúrate que el nombre de la importación coincide con tu archivo
 import SearchBar from "./searchBar";
 import Filters from "./filter";
+import Footer from "./footer"; // Importa el nuevo componente Footer
 import axios from "axios";
 
 function MovieList() {
@@ -51,8 +52,13 @@ function MovieList() {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
-      <Filters onFilterChange={handleFilterChange} />
+      <div className="flex-container">
+        {" "}
+        {/* CAMBIO */}
+        <Filters onFilterChange={handleFilterChange} /> {/* CAMBIO */}
+        <SearchBar onSearch={handleSearch} /> {/* CAMBIO */}
+      </div>{" "}
+      {/* CAMBIO */}
       <div className="container">
         <div className="row">
           {movies.map((movie) => (
@@ -71,6 +77,7 @@ function MovieList() {
           )}
         </div>
       </div>
+      <Footer /> {/* CAMBIO: Añade el componente Footer al final */}
     </div>
   );
 }

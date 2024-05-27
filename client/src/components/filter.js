@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./styles/filters.module.scss"; // Importa los estilos
+import styles from "./filters.module.scss"; // Importa los estilos
 
 function Filters({ onFilterChange }) {
   const [genre, setGenre] = useState("");
