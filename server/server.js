@@ -1,15 +1,35 @@
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const cors = require("cors");
+const app = express();
+
+// Cargar variables de entorno desde .env
+dotenv.config();
+
+const PORT = process.env.PORT_BACKEND || 3000;
+// Conectar a MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
+// Importar rutas
 const apiRouter = require("./api"); // Asegúrate de que la ruta aquí es correcta
+const authRoutes = require("./routes/auth"); // Importa las rutas de autenticación
 
-let commentsByMovieId = {}; // Almacena comentarios por ID de película
-
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use("/api", apiRouter); // Monta el router en la ruta base '/api'
 
+// Montar rutas
+app.use("/api", apiRouter); // Monta el router en la ruta base '/api'
+app.use("/api/auth", authRoutes); // Monta las rutas de autenticación en '/api/auth'
+
+// Simulador de almacenamiento en memoria para comentarios
+let commentsByMovieId = {}; // Almacena comentarios por ID de película
+
+// Rutas para manejar comentarios
 app.post("/api/comments/:movieId", (req, res) => {
   const { movieId } = req.params;
   const comment = req.body.comment;
@@ -30,6 +50,7 @@ app.get("/api/comments/:movieId", (req, res) => {
   res.json(commentsByMovieId[movieId] || []);
 });
 
+// Iniciar el servidor
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
