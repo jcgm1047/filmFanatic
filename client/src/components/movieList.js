@@ -5,6 +5,7 @@ import SearchBar from "./searchBar";
 import Filters from "./filter";
 import Footer from "./footer"; // Importa el nuevo componente Footer
 import axios from "axios";
+import AuthModal from "./authModal"; // Asegúrate de que la ruta es correcta
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
@@ -58,6 +59,10 @@ function MovieList() {
         <Filters onFilterChange={handleFilterChange} /> {/* CAMBIO */}
         <SearchBar onSearch={handleSearch} /> {/* CAMBIO */}
       </div>{" "}
+      <div className="App">
+        <h1>Bienvenido a FilmFanatic</h1>
+        <AuthModal />
+      </div>
       {/* CAMBIO */}
       <div className="container">
         <div className="row">
