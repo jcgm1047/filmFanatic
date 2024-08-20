@@ -32,7 +32,17 @@ npm --version
      ```bash
      npm install
      ```
-	 
+## .env
+
+- Asegúrate de configurar las variables de entorno necesarias, como la URL de la base de datos MongoDB, en un archivo .env. Un archivo de ejemplo .env.example se incluye en el repositorio para guiarte.
+     ```bash
+     #ENV BACKEND
+MONGO_URI="mongodb+srv://jcgm1047:oBecSCun6nwgdNVQ@cluster0.bzyly.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+JWT_SECRET=jcgm1047
+PORT_BACKEND=3000
+#ENV FRONTEND
+PORT_FRONTEND=5000
+     ```
 ## Ejecutar la aplicación
 
 Con las dependencias instaladas, puedes ejecutar la aplicación localmente:
