@@ -53,7 +53,7 @@ const AuthModal = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="dark" onClick={handleShow}>
         {isLogin ? "Iniciar Sesión" : "Registrarse"}
       </Button>
 

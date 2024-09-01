@@ -14,11 +14,13 @@ function Filters({ onFilterChange }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (year >= 1900 && year <= new Date().getFullYear()) {
+      console.log("Filters selected:", { genre, year }); // Debugging
       onFilterChange({ genre, year });
     } else {
       alert("Please select a valid year");
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className={styles.formWrapper}>
       {" "}
@@ -61,7 +63,7 @@ function Filters({ onFilterChange }) {
         </select>
       </div>
       <div className="col-auto">
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-dark">
           Filtrar
         </button>
       </div>

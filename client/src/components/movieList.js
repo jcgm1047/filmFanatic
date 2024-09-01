@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "./movieCard";
-import MovieDetails from "./movieDetail"; // Asegúrate que el nombre de la importación coincide con tu archivo
-import SearchBar from "./searchBar";
-import Filters from "./filter";
-import Footer from "./footer"; // Importa el nuevo componente Footer
+import MovieDetails from "./movieDetail";
 import axios from "axios";
-import AuthModal from "./authModal"; // Asegúrate de que la ruta es correcta
+import Container from "react-bootstrap/Container";
 
-function MovieList() {
+function MovieList({ searchTerm, filters }) {
   const [movies, setMovies] = useState([]);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filters, setFilters] = useState({ genre: "", year: "" });
 
   useEffect(() => {
     const fetchMovies = () => {
@@ -34,14 +29,6 @@ function MovieList() {
     fetchMovies();
   }, [searchTerm, filters]);
 
-  const handleSearch = (search) => {
-    setSearchTerm(search);
-  };
-
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-  };
-
   const handleMovieSelect = (movieId) => {
     setSelectedMovieId(movieId);
     setShowModal(true);
@@ -52,18 +39,7 @@ function MovieList() {
   };
 
   return (
-    <div>
-      <div className="flex-container">
-        {" "}
-        {/* CAMBIO */}
-        <Filters onFilterChange={handleFilterChange} /> {/* CAMBIO */}
-        <SearchBar onSearch={handleSearch} /> {/* CAMBIO */}
-      </div>{" "}
-      <div className="App">
-        <h1>Bienvenido a FilmFanatic</h1>
-        <AuthModal />
-      </div>
-      {/* CAMBIO */}
+    <Container fluid>
       <div className="container">
         <div className="row">
           {movies.map((movie) => (
@@ -82,8 +58,7 @@ function MovieList() {
           )}
         </div>
       </div>
-      <Footer /> {/* CAMBIO: Añade el componente Footer al final */}
-    </div>
+    </Container>
   );
 }
 
