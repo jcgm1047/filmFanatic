@@ -15,9 +15,9 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Importar rutas
-const apiRouter = require("./api"); // Asegúrate de que la ruta aquí es correcta
-const authRoutes = require("./routes/auth"); // Importa las rutas de autenticación
-const profileRoutes = require("./routes/profileRoutes"); // Ruta de perfiles
+const apiRouter = require("./src/api"); // Asegúrate de que la ruta aquí es correcta
+const authRoutes = require("./src/routes/auth"); // Importa las rutas de autenticación
+const profileRoutes = require("./src/routes/profileRoutes"); // Ruta de perfiles
 
 // Middleware
 app.use(cors());
