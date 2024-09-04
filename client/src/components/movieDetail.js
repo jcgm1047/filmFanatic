@@ -123,7 +123,7 @@ class MovieDetails extends React.Component {
               onChange={(e) => this.setState({ newComment: e.target.value })}
               maxLength="200"
             />
-            <Button onClick={this.handleAddComment}>Add Comment</Button>
+            <Button onClick={this.handleAddComment}>Comenta!</Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>

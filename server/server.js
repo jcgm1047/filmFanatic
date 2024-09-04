@@ -17,6 +17,7 @@ mongoose
 // Importar rutas
 const apiRouter = require("./api"); // Asegúrate de que la ruta aquí es correcta
 const authRoutes = require("./routes/auth"); // Importa las rutas de autenticación
+const profileRoutes = require("./routes/profileRoutes"); // Ruta de perfiles
 
 // Middleware
 app.use(cors());
@@ -25,6 +26,7 @@ app.use(express.json());
 // Montar rutas
 app.use("/api", apiRouter); // Monta el router en la ruta base '/api'
 app.use("/api/auth", authRoutes); // Monta las rutas de autenticación en '/api/auth'
+app.use("/api/profiles", profileRoutes);
 
 // Simulador de almacenamiento en memoria para comentarios
 let commentsByMovieId = {}; // Almacena comentarios por ID de película

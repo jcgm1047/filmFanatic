@@ -4,7 +4,6 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "./footer.css"; // Asegúrate de crear y enlazar un archivo de estilos para el footer
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 
 function Footer() {
   const [show, setShow] = useState(false);

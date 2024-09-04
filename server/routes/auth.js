@@ -87,4 +87,52 @@ router.get("/me", async (req, res) => {
   }
 });
 
+// Obtener todos los perfiles
+router.get("/profiles", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Crear un nuevo perfil
+router.post("/profiles", async (req, res) => {
+  const user = new User({
+    username: req.body.username,
+    email: req.body.email,
+    role: req.body.role,
+    password: req.body.password, // Manejo de contraseñas en entorno real debe ser seguro
+  });
+  try {
+    const newUser = await user.save();
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Actualizar un perfil
+router.put("/profiles/:id", async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Eliminar un perfil
+router.delete("/profiles/:id", async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "Perfil eliminado" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
