@@ -8,21 +8,18 @@ import Login from "./components/login";
 import Profile from "./components/profile";
 import Register from "./components/register";
 import PrivateRoute from "./components/privateRoute";
-import Footer from "./components/footer"; // Importa el Footer
-import AdminLogin from "./components/adminLogin"; // El componente que vamos a crear
-import AdminDashboard from "./components/adminDashboard"; // El componente del CRUD
+import Footer from "./components/footer";
+import AdminDashboard from "./components/adminDashboard";
 
 function App() {
   const [filters, setFilters] = useState({ genre: "", year: "" });
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleFilterChange = (newFilters) => {
-    console.log("Filters updated:", newFilters); // Debugging
     setFilters(newFilters);
   };
 
   const handleSearch = (search) => {
-    console.log("Search term updated:", search); // Debugging
     setSearchTerm(search);
   };
 
@@ -45,12 +42,10 @@ function App() {
               </PrivateRoute>
             }
           />
-          {/* Nueva ruta para la administración */}
-          <Route path="/admin" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
             element={
-              <PrivateRoute>
+              <PrivateRoute requiredRole="admin">
                 <AdminDashboard />
               </PrivateRoute>
             }

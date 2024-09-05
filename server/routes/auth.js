@@ -46,40 +46,47 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      console.log("Usuario no encontrado");
       return res.status(401).json({ error: "Credenciales incorrectas" });
     }
-
-    // Añadir logs para depuración
-    console.log("Contraseña ingresada:", password);
-    console.log("Contraseña almacenada (hasheada):", user.password);
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Resultado de la comparación:", isMatch);
-
     if (!isMatch) {
-      console.log("Contraseña incorrecta");
       return res.status(401).json({ error: "Credenciales incorrectas" });
     }
 
-    const token = jwt.sign({ id: user._id, email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.json({ token });
+    const token = jwt.sign(
+      { id: user._id, email, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.json({ token, role: user.role }); // Enviar el rol del usuario junto con el token
   } catch (error) {
-    console.error("Error en el proceso de inicio de sesión:", error);
     res.status(500).json({ error: "Error al iniciar sesión" });
   }
 });
 
 // Ruta protegida para obtener el perfil del usuario actual
 router.get("/me", async (req, res) => {
+  // Extraer el token del encabezado de la solicitud
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ error: "No autorizado" });
 
   try {
+    // Verificar el token con la clave secreta
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select("-password"); // Excluir la contraseña en la respuesta
+
+    // Encontrar el usuario en la base de datos, excluyendo la contraseña
+    const user = await User.findById(decoded.id).select("-password");
+
+    // Verificar si el usuario existe y devolver su información
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    // Devolver el perfil del usuario, incluyendo el rol
     res.json(user);
   } catch (error) {
     console.error("Error al verificar el token:", error);
