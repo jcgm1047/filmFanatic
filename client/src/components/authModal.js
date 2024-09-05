@@ -28,26 +28,55 @@ const AuthModal = () => {
       : { username, email, password };
 
     try {
+      // Realiza la solicitud de inicio de sesión
       const response = await axios.post(
-        `http://localhost:3000${endpoint}`,
-        payload
+        "http://localhost:3000/api/auth/login",
+        { email, password }
       );
-      localStorage.setItem("token", response.data.token);
-      setMessage(
-        isLogin
-          ? "Inicio de sesión exitoso. Redirigiendo..."
-          : "Registro exitoso. Redirigiendo..."
-      );
-      setTimeout(() => {
-        navigate("/profile");
-        handleClose();
-      }, 2000); // Redirigir después de 2 segundos
+      // Verificar si el token está presente en la respuesta
+      if (response.data.token) {
+        // Almacenar el token en el localStorage
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.role);
+
+        // Obtener el perfil del usuario, que incluye el rol
+        const userProfile = await axios.get(
+          "http://localhost:3000/api/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`,
+            },
+          }
+        );
+
+        // Verifica si el rol fue recibido correctamente
+        if (userProfile.data && userProfile.data.role) {
+          // Almacenar el rol en el localStorage
+          localStorage.setItem("role", userProfile.data.role);
+
+          // Redirigir según el rol del usuario
+          if (userProfile.data.role === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+            setTimeout(() => navigate("/profile"), 2000);
+          }
+        } else {
+          console.error("No se encontró el rol del usuario");
+          setMessage("Error al obtener el perfil del usuario");
+        }
+      } else {
+        setMessage("No se obtuvo un token válido.");
+        console.error("Token no obtenido en la respuesta.");
+      }
     } catch (error) {
       if (error.response && error.response.data) {
-        setMessage(`Error: ${error.response.data.error}`);
+        setMessage("Error al iniciar sesión: " + error.response.data.error);
       } else {
-        setMessage("Error: No se pudo conectar con el servidor.");
+        setMessage(
+          "Error al iniciar sesión: No se pudo conectar con el servidor."
+        );
       }
+      console.error("Error al iniciar sesión:", error);
     }
   };
 

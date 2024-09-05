@@ -3,11 +3,11 @@ import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children, requiredRole }) => {
   const [role, setRole] = useState(null);
-
+  console.log("role: ", role);
+  console.log("requiredRole", requiredRole);
   useEffect(() => {
     // Intentar leer el rol del localStorage cuando el componente se monta
     const storedRole = localStorage.getItem("role");
-    console.log("Rol recuperado del localStorage:", storedRole); // Verificación de qué valor se guarda en el localStorage
     setRole(storedRole);
   }, []); // Solo ejecutar una vez, cuando se monta el componente
 
@@ -19,7 +19,6 @@ const PrivateRoute = ({ children, requiredRole }) => {
 
   // Verificar el rol del usuario
   if (requiredRole && role !== requiredRole) {
-    console.log("Rol requerido:", requiredRole, "pero rol encontrado:", role);
     // Si se requiere un rol específico y no coincide, redirige al perfil
     return <Navigate to="/profile" />;
   }

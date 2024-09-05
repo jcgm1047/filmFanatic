@@ -10,7 +10,6 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("entre aca");
       const token = localStorage.getItem("token");
 
       if (!token) {
