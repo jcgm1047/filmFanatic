@@ -16,7 +16,7 @@ const Login = () => {
         "http://localhost:3000/api/auth/login",
         { email, password }
       );
-
+      console.log(response);
       // Verificar si el token está presente en la respuesta
       if (response.data.token) {
         console.log("Token recibido:", response.data.token);
