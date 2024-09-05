@@ -22,6 +22,7 @@ const Login = () => {
         console.log("Token recibido:", response.data.token);
         // Almacenar el token en el localStorage
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.role);
 
         // Obtener el perfil del usuario, que incluye el rol
         const userProfile = await axios.get(
@@ -32,7 +33,7 @@ const Login = () => {
             },
           }
         );
-
+        console.log("datos: ", userProfile);
         // Verifica si el perfil del usuario se obtiene correctamente
         console.log("Perfil del usuario recibido:", userProfile.data);
 
