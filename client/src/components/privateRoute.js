@@ -3,8 +3,6 @@ import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children, requiredRole }) => {
   const [role, setRole] = useState(null);
-  console.log("role: ", role);
-  console.log("requiredRole", requiredRole);
   useEffect(() => {
     // Intentar leer el rol del localStorage cuando el componente se monta
     const storedRole = localStorage.getItem("role");

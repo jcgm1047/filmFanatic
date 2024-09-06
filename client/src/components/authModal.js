@@ -3,7 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AuthModal = () => {
+const AuthModal = ({ onLoginSuccess }) => {
   const [show, setShow] = useState(false);
   const [isLogin, setIsLogin] = useState(true); // Para alternar entre registro e inicio de sesión
   const [username, setUsername] = useState("");
@@ -28,18 +28,14 @@ const AuthModal = () => {
       : { username, email, password };
 
     try {
-      // Realiza la solicitud de inicio de sesión
       const response = await axios.post(
         "http://localhost:3000/api/auth/login",
-        { email, password }
+        payload
       );
-      // Verificar si el token está presente en la respuesta
-      if (response.data.token) {
-        // Almacenar el token en el localStorage
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.role);
 
-        // Obtener el perfil del usuario, que incluye el rol
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+
         const userProfile = await axios.get(
           "http://localhost:3000/api/auth/me",
           {
@@ -49,17 +45,17 @@ const AuthModal = () => {
           }
         );
 
-        // Verifica si el rol fue recibido correctamente
         if (userProfile.data && userProfile.data.role) {
-          // Almacenar el rol en el localStorage
           localStorage.setItem("role", userProfile.data.role);
 
-          // Redirigir según el rol del usuario
           if (userProfile.data.role === "admin") {
             navigate("/admin/dashboard");
           } else {
-            setTimeout(() => navigate("/profile"), 2000);
+            navigate("/profile");
           }
+
+          handleClose(); // Cerrar el modal cuando se autentica exitosamente
+          onLoginSuccess(); // Notificar al componente padre que la autenticación fue exitosa
         } else {
           console.error("No se encontró el rol del usuario");
           setMessage("Error al obtener el perfil del usuario");
