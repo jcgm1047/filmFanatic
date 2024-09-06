@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MovieList from "./components/movieList";
-import Header from "./components/header";
-import Profile from "./components/profile";
-import Register from "./components/register";
+import MovieList from "./components/movies/movieList";
+import Header from "./components/header/header";
+import Profile from "./components/user/profile";
+import Register from "./components/auth/register";
 import PrivateRoute from "./components/privateRoute";
-import Footer from "./components/footer";
-import AdminDashboard from "./components/adminDashboard";
+import Footer from "./components/footer/footer";
+import AdminDashboard from "./components/admin/adminDashboard";
 
 function App() {
   const [filters, setFilters] = useState({ genre: "", year: "" });

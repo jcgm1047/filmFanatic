@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "User",
+    default: "user", // Valor por defecto para el rol
   },
 });
 
@@ -32,19 +32,13 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Middleware para normalizar el rol antes de guardar
+// Middleware para convertir el rol a minúsculas antes de guardar
 userSchema.pre("save", function (next) {
   if (this.role) {
-    // Asegúrate de que el rol siempre comience con mayúscula
-    this.role =
-      this.role.charAt(0).toUpperCase() + this.role.slice(1).toLowerCase();
+    this.role = this.role.toLowerCase(); // Convertir el rol a minúsculas
   }
   next();
 });
-
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
 
 const User = mongoose.model("User", userSchema);
 

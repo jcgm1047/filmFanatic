@@ -15,8 +15,14 @@ const AdminDashboard = () => {
     username: "",
     email: "",
     role: "User", // Valor predeterminado para el rol al crear un nuevo perfil
-  }); // Estado para crear un nuevo perfil
-  const [selectedProfile, setSelectedProfile] = useState(null); // Perfil seleccionado para actualizar
+    password: "", // Añadir password en newProfile
+  });
+  const [selectedProfile, setSelectedProfile] = useState({
+    username: "",
+    email: "",
+    role: "User",
+    password: "", // Añadir campo de password en selectedProfile
+  }); // Perfil seleccionado para actualizar
   const [showModal, setShowModal] = useState(false); // Estado para el modal de actualización
   const [showCreateModal, setShowCreateModal] = useState(false); // Estado para el modal de creación
 
@@ -66,7 +72,7 @@ const AdminDashboard = () => {
 
   // Mostrar el modal y cargar el perfil seleccionado para actualizar
   const handleShowUpdateModal = (profile) => {
-    setSelectedProfile(profile);
+    setSelectedProfile({ ...profile, password: "" }); // Limpiar el campo de la contraseña
     setShowModal(true);
   };
 
@@ -84,9 +90,15 @@ const AdminDashboard = () => {
   // Función para actualizar un perfil
   const handleUpdateProfile = async () => {
     try {
+      const updatedData = { ...selectedProfile };
+      // Si no se proporciona una nueva contraseña, eliminarla del objeto de actualización
+      if (!updatedData.password) {
+        delete updatedData.password;
+      }
+
       const response = await axios.put(
         `http://localhost:3000/api/profiles/${selectedProfile._id}`,
-        selectedProfile
+        updatedData
       );
       setProfiles(
         profiles.map((profile) =>
@@ -212,6 +224,25 @@ const AdminDashboard = () => {
                   <option value="admin">admin</option>
                 </Form.Select>
               </FloatingLabel>
+
+              {/* Campo para cambiar la contraseña */}
+              <FloatingLabel
+                controlId="floatingPassword"
+                label="Nueva Contraseña (Opcional)"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="password"
+                  placeholder="Ingresa una nueva contraseña (opcional)"
+                  value={selectedProfile.password || ""}
+                  onChange={(e) =>
+                    setSelectedProfile({
+                      ...selectedProfile,
+                      password: e.target.value,
+                    })
+                  }
+                />
+              </FloatingLabel>
             </Form>
           )}
         </Modal.Body>
@@ -289,8 +320,8 @@ const AdminDashboard = () => {
                   setNewProfile({ ...newProfile, role: e.target.value })
                 }
               >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                <option value="user">user</option>
+                <option value="admin">admin</option>
               </Form.Select>
             </FloatingLabel>
           </Form>

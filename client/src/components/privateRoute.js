@@ -3,13 +3,21 @@ import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children, requiredRole }) => {
   const [role, setRole] = useState(null);
-  console.log("role: ", role);
-  console.log("requiredRole", requiredRole);
+  const [loading, setLoading] = useState(true); // Estado para cargar el rol
+
   useEffect(() => {
     // Intentar leer el rol del localStorage cuando el componente se monta
     const storedRole = localStorage.getItem("role");
-    setRole(storedRole);
-  }, []); // Solo ejecutar una vez, cuando se monta el componente
+    if (storedRole) {
+      setRole(storedRole);
+    }
+    setLoading(false); // Una vez se intenta obtener el rol, marcamos la carga como completada
+  }, []);
+
+  // Verificar si aún estamos cargando
+  if (loading) {
+    return <p>Cargando...</p>; // Mostrar un mensaje mientras se carga
+  }
 
   // Verificar si el token existe
   if (!localStorage.getItem("token")) {
@@ -17,9 +25,9 @@ const PrivateRoute = ({ children, requiredRole }) => {
     return <Navigate to="/login" />;
   }
 
-  // Verificar el rol del usuario
+  // Verificar el rol del usuario y compararlo con el rol requerido
   if (requiredRole && role !== requiredRole) {
-    // Si se requiere un rol específico y no coincide, redirige al perfil
+    console.log("Rol requerido:", requiredRole, "pero rol encontrado:", role);
     return <Navigate to="/profile" />;
   }
 

@@ -14,26 +14,29 @@ router.post("/register", async (req, res) => {
 
   try {
     // Verificar si el nombre de usuario ya existe
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: "El nombre de usuario ya está en uso" });
+      return res.status(400).json({ error: "El correo ya está en uso" });
     }
 
     // Crear el usuario
     const user = await User.create({
       username,
       email,
-      password: password,
+      password,
     });
 
     // Generar token
-    const token = jwt.sign({ id: user._id, email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h", // Token válido por 1 hora
+      }
+    );
 
-    res.status(201).json({ token });
+    // Devolver el token y el rol en la respuesta
+    res.status(201).json({ token, role: user.role });
   } catch (error) {
     console.error("Error al registrar usuario:", error);
     res.status(400).json({ error: error.message });

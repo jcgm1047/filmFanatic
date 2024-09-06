@@ -3,10 +3,10 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const AuthModal = () => {
+const AuthModal = ({ onSuccessfulLogin }) => {
   const [show, setShow] = useState(false);
   const [isLogin, setIsLogin] = useState(true); // Para alternar entre registro e inicio de sesión
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); // Añadir estado para el nombre de usuario
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(""); // Estado para el mensaje de notificación
@@ -25,58 +25,43 @@ const AuthModal = () => {
     const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
     const payload = isLogin
       ? { email, password }
-      : { username, email, password };
+      : { username, email, password }; // Añadir nombre de usuario en el payload de registro
 
     try {
-      // Realiza la solicitud de inicio de sesión
+      // Realiza la solicitud de inicio de sesión o registro
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        { email, password }
+        `http://localhost:3000${endpoint}`,
+        payload
       );
-      // Verificar si el token está presente en la respuesta
-      if (response.data.token) {
-        // Almacenar el token en el localStorage
+
+      // Almacenar el token y el rol en el localStorage
+      if (response.data.token && response.data.role) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
 
-        // Obtener el perfil del usuario, que incluye el rol
-        const userProfile = await axios.get(
-          "http://localhost:3000/api/auth/me",
-          {
-            headers: {
-              Authorization: `Bearer ${response.data.token}`,
-            },
-          }
-        );
+        console.log("Token y rol guardados en localStorage");
 
-        // Verifica si el rol fue recibido correctamente
-        if (userProfile.data && userProfile.data.role) {
-          // Almacenar el rol en el localStorage
-          localStorage.setItem("role", userProfile.data.role);
+        // Notificar al header que el inicio de sesión o registro fue exitoso
+        onSuccessfulLogin();
 
-          // Redirigir según el rol del usuario
-          if (userProfile.data.role === "admin") {
-            navigate("/admin/dashboard");
-          } else {
-            setTimeout(() => navigate("/profile"), 2000);
-          }
+        // Cerrar el modal
+        handleClose();
+
+        // Redirigir según el rol del usuario
+        if (response.data.role === "admin") {
+          // Si el usuario tiene el rol de admin, redirige al dashboard
+          navigate("/admin/dashboard");
         } else {
-          console.error("No se encontró el rol del usuario");
-          setMessage("Error al obtener el perfil del usuario");
+          // Si no, redirige al perfil
+          navigate("/profile");
         }
       } else {
         setMessage("No se obtuvo un token válido.");
         console.error("Token no obtenido en la respuesta.");
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        setMessage("Error al iniciar sesión: " + error.response.data.error);
-      } else {
-        setMessage(
-          "Error al iniciar sesión: No se pudo conectar con el servidor."
-        );
-      }
-      console.error("Error al iniciar sesión:", error);
+      setMessage("Error al iniciar sesión o registrar");
+      console.error("Error al iniciar sesión o registrar:", error);
     }
   };
 
