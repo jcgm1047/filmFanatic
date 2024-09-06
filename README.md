@@ -42,6 +42,7 @@ cd filmfanatic
 
 En la carpeta raíz del proyecto (donde está el servidor), ejecuta:
 ```bash
+cd server
 npm install
 ```
 
